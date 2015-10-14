@@ -3,81 +3,88 @@ package algo;
 import java.util.*;
 
 /**
-  * @author Adrien Agez
-  * @author Sarah Wissocq
-  */
+ * @author Adrien Agez
+ * @author Sarah Wissocq
+ */
 public class Game {
+    
+    public static int naif(int m, int n, int x, int y) {
+	List<Integer> positif = new LinkedList<Integer>();
+	List<Integer> negatif = new LinkedList<Integer>();
+	if (m==n && n == 1 && x==y && x==0){
+            return 0;
+	}
+	else{
+	    for(int i=1;i<=x;i++){
+		int res=naif(m-i,n,x-i,y);
+		if(res>0){
+		    positif.add(res);
+		}
+		else{
+		    negatif.add(res);
+		}
+	    }
+	    for(int i=x+1;i<m;i++){
+		int res=naif(i,n,x,y);
+		if(res>0){
+		    positif.add(res);
+		}
+		else{
+		    negatif.add(res);
+		}
+	    }
+	    for(int i=1;i<=y;i++){
+		int res=naif(m,n-i,x,y-i);
+		if(res>0){
+		    positif.add(res);
+		}
+		else{
+		    negatif.add(res);
+		}
+	    }
+	    for(int i=y+1;i<n;i++){
+		int res=naif(m,i,x,y);
+		if(res>0){
+		    positif.add(res);
+		}
+		else{
+		    negatif.add(res);
+		}
+	    }
+	    if(negatif.isEmpty()){
+		return -(maximum(positif)+1);
+	    }
+	    else{
+		return -(maximum(negatif))+1;
+	    }
+	}
+    }
 
-    private int m;
-    private int n;
-    private int i;
-    private int j;
-    
-    
-    public Game(int m, int n, int i, int j) {
-        i = i;
-        j = j;
-        m = m;
-        n = n;
+
+    public static Integer maximum(List<Integer> l){
+	Integer res=l.get(0);
+	for(Integer i : l){
+	    if(i.compareTo(res)>0){
+		res=i;
+	    }
+	}
+	return res;
     }
-    
-    
-    public int naif() {
-        if (m == 1 && j == 1)
-            return 0;
-        List<Game> tab = this.possibilities();
-        int[] res = new int[tab.size()];
-        for (int idx = 0; i < tab.size();  i++) {
-            res[idx] = tab.get(idx).naif();
-        }
-        return nextValue(res);    
+
+    public static int dynamique(){
+	
+	return 0;
     }
-    
-    private List<Game> possibilities() {
-        List<Game> res = new ArrayList<Game>();
-        for (int idx = 1; idx < this.m; idx++) {
-            if (m-idx >=0)                              // Coupure verticale avant le carré
-                res.add(new Game(m-idx , n, i-idx, j));
-            else                                        // Coupure verticale après le carré
-                res.add(new Game(idx, n, i, j));
-        }
-        for (int idx = 1; idx < this.n; idx++) {
-            if (n-idx >=0)                              // Coupure horizontale avant le carré
-                res.add(new Game(m , n-idx, i, j-idx));
-            else                                        // Coupure horizontale après le carré
-                res.add(new Game(m, idx, i, j));
-         }
-         System.out.println(res);
-        return res;
+
+    public static void main(String[] args) {
+	System.out.println(naif(3,2,2,0));
+	long temps=System.nanoTime();
+	System.out.println(naif(10,7,7,3));
+	System.out.println("naif(10,7,7,3) = " +(System.nanoTime() - temps));
+	temps=System.nanoTime();
+	System.out.println(naif(10,7,5,3));
+	System.out.println("naif(10,7,5,3) = " +(System.nanoTime() - temps));
+	System.out.println(dynamique(100,100,50,50));
+	System.out.println(dynamique(100,100,48,52));
     }
-    
-    private static int nextValue(int[] tab) {
-        if (tab.length == 0)        
-            return 0;
-        int res = tab[0];
-        boolean negValue = (res < 0);
-        for (int idx = 0; idx < tab.length; idx++) {
-            if (negValue) {
-                if (tab[idx] < 0 && tab[idx] > res)
-                    res = tab[idx];
-            }
-            else {
-                if (tab[idx] < 0) {
-                    res = tab[idx];
-                    negValue = true;
-                }
-                else if (tab[idx] > res) 
-                    res = tab[idx];
-            }
-        }
-        if (negValue) 
-            return -res+1;
-        return -res -1;
-    }
-    
-    
-    public String toString() {
-        return "(" + m + ", " + n + ", " + i + "," + j + ")";
-    }
-    
 }
