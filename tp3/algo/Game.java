@@ -167,7 +167,15 @@ public class Game {
 	return ((double) (now - prev)) / 1000000000.;
     }
     
-// ################################## MAIN #########################################   
+// ################################## MAIN #########################################
+
+    public static void printNaif(int m, int n, int x, int y) {
+	System.out.println("naif("+m+","+n+","+x+","+y+") = " + new Game(m,n,x,y).naif() + ", time = " + time() + " secondes");
+    }
+    
+    public static void printDynamique(int m, int n, int x, int y) {
+	System.out.println("dynamique("+m+","+n+","+x+","+y+") = " + new Game(m,n,x,y).dynamique() + ", time = " + time() + " secondes");
+    }
 
     public static void main(String[] args) {
     	/*   /
@@ -183,13 +191,13 @@ public class Game {
 	
 	/* */
 	time();
-	System.out.println("naif(3,2,2,0) = " + new Game(3,2,2,0).naif() + ", time = " + time());
-	System.out.println("naif(10,7,7,3) = " + new Game(10,7,7,3).naif() + ", time = " + time());
-	System.out.println("naif(10,7,5,3) = " + new Game(10,7,5,3).naif() + ", time = " + time());
+	printNaif(3,2,2,0);
+	printNaif(10,7,7,3);
+	printNaif(10,7,5,3);
 	
-	System.out.println("dynamique(3,2,2,0) = " + new Game(3,2,2,0).dynamique() + ", time = " + time());
-	System.out.println("dynamique(10,7,7,3) = " + new Game(10,7,7,3).dynamique() + ", time = " + time());
-	System.out.println("dynamique(10,7,5,3) = " + new Game(10,7,5,3).dynamique() + ", time = " + time());
+	printDynamique(3,2,2,0);
+	printDynamique(10,7,7,3);
+	printDynamique(10,7,5,3);
 	/* */
     }
 }
