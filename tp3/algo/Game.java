@@ -13,6 +13,7 @@ public class Game {
     private int n;
     private int x;
     private int y;
+    private static long time;
     
     public Game(int m, int n, int x, int y) {
         this.m = m; 
@@ -83,7 +84,7 @@ public class Game {
 	int[][][][] tab = new int[m+1][n+1][x+1][y+1];
 	boolean[][][][] calc = new boolean[m+1][n+1][x+1][y+1];
 	// Remplissage des tableaux
-	tab[1][1][0][0] = 0;
+
 	for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
                 for (int k = 0; k < x; k++) 
@@ -97,6 +98,7 @@ public class Game {
             tab[1][j][0][0] = 1;
             calc[1][j][0][0] = true;
         }
+	tab[1][1][0][0] = 0;
         
 	return this.dynamiqueRec(tab, calc);
     }
@@ -158,6 +160,12 @@ public class Game {
 	return "(" + m + ", " + n + ", " + x + ", " + y + ")";
     }
     
+    private static double time() {
+	long prev = time;
+	long now = System.nanoTime();
+	time = now;
+	return ((double) (now - prev)) / 1000000000.;
+    }
     
 // ################################## MAIN #########################################   
 
@@ -170,22 +178,18 @@ public class Game {
 	    int y = Integer.parseInt(args[3]);
 	    System.out.println(new Game(m, n, x, y).naif());
 	} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+	}
 	/* */
 	
 	/* */
-	long temps=System.nanoTime();
-	System.out.println("naif(3,2,2,0) = " + new Game(3,2,2,0).naif() + ", time = " + (System.nanoTime() - temps));
-	temps=System.nanoTime();
-	System.out.println("naif(10,7,7,3) = " + new Game(10,7,7,3).naif() + ", time = " + (System.nanoTime() - temps));
-	temps=System.nanoTime();
-	System.out.println("naif(10,7,5,3) = " + new Game(10,7,5,3).naif() + ", time = " + (System.nanoTime() - temps));
+	time();
+	System.out.println("naif(3,2,2,0) = " + new Game(3,2,2,0).naif() + ", time = " + time());
+	System.out.println("naif(10,7,7,3) = " + new Game(10,7,7,3).naif() + ", time = " + time());
+	System.out.println("naif(10,7,5,3) = " + new Game(10,7,5,3).naif() + ", time = " + time());
 	
-	temps=System.nanoTime();
-	System.out.println("dynamique(3,2,2,0) = " + new Game(3,2,2,0).dynamique() + ", time = " + (System.nanoTime() - temps));
-	temps=System.nanoTime();
-	System.out.println("dynamique(10,7,7,3) = " + new Game(10,7,7,3).dynamique() + ", time = " + (System.nanoTime() - temps));
-	temps=System.nanoTime();
-	System.out.println("dynamique(10,7,5,3) = " + new Game(10,7,5,3).dynamique() + ", time = " + (System.nanoTime() - temps));
+	System.out.println("dynamique(3,2,2,0) = " + new Game(3,2,2,0).dynamique() + ", time = " + time());
+	System.out.println("dynamique(10,7,7,3) = " + new Game(10,7,7,3).dynamique() + ", time = " + time());
+	System.out.println("dynamique(10,7,5,3) = " + new Game(10,7,5,3).dynamique() + ", time = " + time());
 	/* */
     }
 }
