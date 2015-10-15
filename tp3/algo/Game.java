@@ -21,6 +21,8 @@ public class Game {
         this.y = y;
     }
     
+// ######################## VERSION RECURSIVE NAIVE ###################################    
+    
     public int naif() {
 	List<Integer> positif = new LinkedList<Integer>();
 	List<Integer> negatif = new LinkedList<Integer>();
@@ -70,18 +72,11 @@ public class Game {
 		return -(maximum(negatif))+1;
 	}
     }
-
-
-    public static Integer maximum(List<Integer> l){
-	Integer res=l.get(0);
-	for(Integer i : l){
-	    if(i.compareTo(res)>0){
-		res=i;
-	    }
-	}
-	return res;
-    }
-
+    
+    
+    
+    
+// ######################## VERSION RECURSIVE DYNAMIQUE ###################################   
    
     public int dynamique(){
     // Initialisation des tableaux
@@ -102,19 +97,31 @@ public class Game {
             tab[1][j][0][0] = 1;
             calc[1][j][0][0] = true;
         }
-        for (int i = 1; i < m; i++) {
-            for (int j = 1; j < n; j++) {
-                for (int k = 0; k < i-1; k++) {
-                    for (int l = 0; l < j-1; l++) {
-                        List<Game> succes = successeur(i, j, k, l);
-                        
-                    }
-                }
-            }
-        }
-	return 0;
+        
+	return dynamiqueRec(tab, calc);
     }
     
+    private int dynamiqueRec(int[][][][] tab, boolean[][][][] calc) {
+	if (calc[g.m][g.n][g.x][g.y])
+	    return tab[g.m][g.n][g.x][g.y];
+	List<Game> successeurs = this.successeur(i, j, k, l);
+	List<Integer> positif = new LinkedList<Integer>();
+	List<Integer> negatif = new LinkedList<Integer>();
+	for (Game g : successeurs) {
+	    int res = dynamiqueRes(tab, calc);
+	    if (res > 0)
+		positif.add(res);
+	    else 
+		negatif.add(res);
+	}
+	 if(negatif.isEmpty())
+		return -(maximum(positif)+1);
+	    else
+		return -(maximum(negatif))+1; 
+    }
+    
+
+// ######################## FONCTIONS UTILITAIRES ###################################   
     
     public List<Game> successeur(int m, int n, int x, int y){
 	List<Game> res = new ArrayList<Game>();
@@ -133,10 +140,22 @@ public class Game {
 	return res;
     }
     
+    public static Integer maximum(List<Integer> l){
+	Integer res=l.get(0);
+	for(Integer i : l)
+	    if(i.compareTo(res)>0)
+		res=i;
+	return res;
+    }
+    
+    
     
     public String toString() {
 	return "(" + m + ", " + n + ", " + x + ", " + y + ")";
     }
+    
+    
+// ################################## MAIN #########################################   
 
     public static void main(String[] args) {
     	/*   /
