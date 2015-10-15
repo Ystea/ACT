@@ -78,12 +78,12 @@ public class Game {
     
 // ######################## VERSION RECURSIVE DYNAMIQUE ###################################   
    
-    public int dynamique(){
+    public int dynamique(){	// INITIALISATION
     // Initialisation des tableaux
-	int[][][][] tab = new int[m][n][x][y];
-	boolean[][][][] calc = new boolean[m][n][x][y];
+	int[][][][] tab = new int[m+1][n+1][x+1][y+1];
+	boolean[][][][] calc = new boolean[m+1][n+1][x+1][y+1];
 	// Remplissage des tableaux
-	tab[1][1][0][0]=0;
+	tab[1][1][0][0] = 0;
 	for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
                 for (int k = 0; k < x; k++) 
@@ -98,41 +98,45 @@ public class Game {
             calc[1][j][0][0] = true;
         }
         
-	return dynamiqueRec(tab, calc);
+	return this.dynamiqueRec(tab, calc);
     }
     
     private int dynamiqueRec(int[][][][] tab, boolean[][][][] calc) {
-	if (calc[g.m][g.n][g.x][g.y])
-	    return tab[g.m][g.n][g.x][g.y];
-	List<Game> successeurs = this.successeur(i, j, k, l);
+	if (calc[this.m][this.n][this.x][this.y])
+	    return tab[this.m][this.n][this.x][this.y];
+	List<Game> successeurs = this.successeur();
 	List<Integer> positif = new LinkedList<Integer>();
 	List<Integer> negatif = new LinkedList<Integer>();
 	for (Game g : successeurs) {
-	    int res = dynamiqueRes(tab, calc);
+	    int res = g.dynamiqueRec(tab, calc);
 	    if (res > 0)
 		positif.add(res);
 	    else 
 		negatif.add(res);
 	}
-	 if(negatif.isEmpty())
-		return -(maximum(positif)+1);
-	    else
-		return -(maximum(negatif))+1; 
+	int res;
+	if(negatif.isEmpty())
+	    res = -(maximum(positif)+1);
+	else
+	    res = -(maximum(negatif))+1; 
+	calc[this.m][this.n][this.x][this.y] = true;
+	tab[this.m][this.n][this.x][this.y] = res;
+	return res;
     }
     
 
 // ######################## FONCTIONS UTILITAIRES ###################################   
     
-    public List<Game> successeur(int m, int n, int x, int y){
+    public List<Game> successeur(){
 	List<Game> res = new ArrayList<Game>();
-        for (int idx = 1; idx < this.m; idx++) {
-            if (m-idx >=0)                              // Coupure verticale avant le carré
+        for (int idx = 1; idx < m; idx++) {
+            if (x >= idx)                              // Coupure verticale avant le carré
                 res.add(new Game(m-idx , n, x-idx, y));
             else                                        // Coupure verticale après le carré
                 res.add(new Game(idx, n, x, y));
         }
-        for (int idx = 1; idx < this.n; idx++) {
-            if (n-idx >=0)                              // Coupure horizontale avant le carré
+        for (int idx = 1; idx < n; idx++) {
+            if (y >= idx)                              // Coupure horizontale avant le carré
                 res.add(new Game(m , n-idx, x, y-idx));
             else                                        // Coupure horizontale après le carré
                 res.add(new Game(m, idx, x, y));
@@ -169,13 +173,19 @@ public class Game {
 	/* */
 	
 	/* */
-	System.out.println(new Game(3,2,2,0).naif());
 	long temps=System.nanoTime();
-	System.out.println(new Game(10,7,7,3).naif());
-	System.out.println("naif(10,7,7,3) = " +(System.nanoTime() - temps));
+	System.out.println("naif(3,2,2,0) = " + new Game(3,2,2,0).naif() + ", time = " + (System.nanoTime() - temps));
 	temps=System.nanoTime();
-	System.out.println(new Game(10,7,5,3).naif());
-	System.out.println("naif(10,7,5,3) = " +(System.nanoTime() - temps));
+	System.out.println("naif(10,7,7,3) = " + new Game(10,7,7,3).naif() + ", time = " + (System.nanoTime() - temps));
+	temps=System.nanoTime();
+	System.out.println("naif(10,7,5,3) = " + new Game(10,7,5,3).naif() + ", time = " + (System.nanoTime() - temps));
+	
+	temps=System.nanoTime();
+	System.out.println("dynamique(3,2,2,0) = " + new Game(3,2,2,0).dynamique() + ", time = " + (System.nanoTime() - temps));
+	temps=System.nanoTime();
+	System.out.println("dynamique(10,7,7,3) = " + new Game(10,7,7,3).dynamique() + ", time = " + (System.nanoTime() - temps));
+	temps=System.nanoTime();
+	System.out.println("dynamique(10,7,5,3) = " + new Game(10,7,5,3).dynamique() + ", time = " + (System.nanoTime() - temps));
 	/* */
     }
 }
