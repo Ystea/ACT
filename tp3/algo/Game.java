@@ -32,47 +32,47 @@ public class Game {
 	}
 	else{
 	    for(int i=1;i<=x;i++){
-		int res = new Game(m-i,n,x-i,y).naif();
-		if(res>0){
-		    positif.add(res);
-		}
-		else{
-		    negatif.add(res);
-		}
+			int res = new Game(m-i,n,x-i,y).naif();
+			if(res>0){
+				positif.add(res);
+			}
+			else{
+				negatif.add(res);
+			}
 	    }
 	    for(int i=x+1;i<m;i++){
-		int res = new Game(i,n,x,y).naif();
-		if(res>0){
-		    positif.add(res);
-		}
-		else{
-		    negatif.add(res);
-		}
+			int res = new Game(i,n,x,y).naif();
+			if(res>0){
+				positif.add(res);
+			}
+			else{
+				negatif.add(res);
+			}
 	    }
 	    for(int i=1;i<=y;i++){
-		int res = new Game(m,n-i,x,y-i).naif();
-		if(res>0){
-		    positif.add(res);
-		}
-		else{
-		    negatif.add(res);
-		}
+			int res = new Game(m,n-i,x,y-i).naif();
+			if(res>0){
+				positif.add(res);
+			}
+			else{
+				negatif.add(res);
+			}
 	    }
 	    for(int i=y+1;i<n;i++){
-		int res = new Game(m,i,x,y).naif();
-		if(res>0){
-		    positif.add(res);
+			int res = new Game(m,i,x,y).naif();
+			if(res>0){
+				positif.add(res);
+			}
+			else{
+				negatif.add(res);
+			}
 		}
-		else{
-		    negatif.add(res);
+			if(negatif.isEmpty())
+				return -(maximum(positif)+1);
+			else 
+				return -(maximum(negatif))+1;
 		}
-	    }
-	    if(negatif.isEmpty())
-		return -(maximum(positif)+1);
-	    else 
-		return -(maximum(negatif))+1;
 	}
-    }
     
     
     
@@ -112,9 +112,9 @@ public class Game {
 	for (Game g : successeurs) {
 	    int res = g.dynamiqueRec(tab, calc);
 	    if (res > 0)
-		positif.add(res);
+			positif.add(res);
 	    else 
-		negatif.add(res);
+			negatif.add(res);
 	}
 	int res;
 	if(negatif.isEmpty())
@@ -167,37 +167,50 @@ public class Game {
 	return ((double) (now - prev)) / 1000000000.;
     }
     
+    
+// ######################### AUTRES ALGORITHMES ####################################
+
+
+
+    
 // ################################## MAIN #########################################
 
-    public static void printNaif(int m, int n, int x, int y) {
+    public void printNaif() {
 	System.out.println("naif("+m+","+n+","+x+","+y+") = " + new Game(m,n,x,y).naif() + ", time = " + time() + " secondes");
     }
     
-    public static void printDynamique(int m, int n, int x, int y) {
+    public void printDynamique() {
 	System.out.println("dynamique("+m+","+n+","+x+","+y+") = " + new Game(m,n,x,y).dynamique() + ", time = " + time() + " secondes");
+    }
+    
+    public static void usage() {
+		System.out.println("usage : ");
+		System.out.println("java algo.Game m n i j");
     }
 
     public static void main(String[] args) {
-    	/*   /
-    	try {
-	    int m = Integer.parseInt(args[0]);
-	    int n = Integer.parseInt(args[1]);
-	    int x = Integer.parseInt(args[2]);
-	    int y = Integer.parseInt(args[3]);
-	    System.out.println(new Game(m, n, x, y).naif());
-	} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+		if (! (args.length == 4))
+			usage();
+		else {
+			try {
+				int m = Integer.parseInt(args[0]);
+				int n = Integer.parseInt(args[1]);
+				int x = Integer.parseInt(args[2]);
+				int y = Integer.parseInt(args[3]);
+				time();
+				new Game(m, n, x, y).printDynamique();
+			} catch (NumberFormatException e) {
+				usage();
+			}
+		}
+
+// 		time();
+// 		printNaif(3,2,2,0);
+// 		printNaif(10,7,7,3);
+// 		printNaif(10,7,5,3);
+// 		
+// 		printDynamique(3,2,2,0);
+// 		printDynamique(10,7,7,3);
+// 		printDynamique(10,7,5,3);
 	}
-	/* */
-	
-	/* */
-	time();
-	printNaif(3,2,2,0);
-	printNaif(10,7,7,3);
-	printNaif(10,7,5,3);
-	
-	printDynamique(3,2,2,0);
-	printDynamique(10,7,7,3);
-	printDynamique(10,7,5,3);
-	/* */
-    }
 }

@@ -7,7 +7,9 @@ Question 2)
 si négatif -> position = -max(successeurs négatifs)+1
 sinon      -> position = -min(successeurs)-1
 
-
+Question 4)
+(100, 100, 50, 50) : -198
+(100, 100, 48, 52) : 191
 
 
 
