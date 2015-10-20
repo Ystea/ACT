@@ -210,6 +210,22 @@ public class Game {
 // ######################### AUTRES ALGORITHMES ####################################
 // #################################################################################
 
+    /**
+     * @param m La longueur des configurations à tester
+     * @param n la hauteur des configuration à tester
+     * @return La liste de toutes les configuration dont la valeur est egale à <code>value</code>
+     */
+    public static List<Game> configs(int m, int n, int value) {
+	List<Game> games = new LinkedList<Game>();
+	for (int i = 0, i < m; i++) {
+	    for (int j = 0; j < n; j++) {
+		Game g = new Game(m, n, i, j);
+		if (g.dynamique() == value)
+		    games.add(g);
+	    }
+	}
+	return games;
+    }
 
 // #################################################################################    
 // ################################## MAIN #########################################

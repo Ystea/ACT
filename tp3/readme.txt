@@ -21,9 +21,23 @@ Question 4)
 dynamique(100, 100, 50, 50) : -198   time = 27.7510 secondes
 dynamique(100, 100, 48, 52) : 191    time = 27.6177 secondes
 
+Question 5)
+Explosion de PC incoming
+
+Question 6)
+Explosion de complexité incoming
+
+Question 7)
+Les 4 premières configurations sont des symétries et auront donc la même valeur, car le "sens" de la configuration
+n'influe pas sur sa valeur
+Les 4 configurations suivantes ne sont que des rotations des 4 premières
+
 
 Question 8)
-dynamique(100, 100, 50, 50) : -198   time = 8.8930 secondes
+Après avoir pris en compte les symétries : 
+dynamique(100, 100, 50, 50) : -198      time = 8.8930 secondes
+dynamique(100,100,48,52)    : 191       time = 10.1686 secondes
+
 
 
 
