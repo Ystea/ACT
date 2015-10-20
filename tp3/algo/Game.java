@@ -217,7 +217,7 @@ public class Game {
      */
     public static List<Game> configs(int m, int n, int value) {
 	List<Game> games = new LinkedList<Game>();
-	for (int i = 0, i < m; i++) {
+	for (int i = 0; i < m; i++) {
 	    for (int j = 0; j < n; j++) {
 		Game g = new Game(m, n, i, j);
 		if (g.dynamique() == value)
@@ -247,7 +247,7 @@ public class Game {
     }
 
     public static void main(String[] args) {
-		if (! (args.length == 4))
+	/*	if (! (args.length == 4))
 			usage();
 		else {
 			try {
@@ -260,7 +260,9 @@ public class Game {
 			} catch (NumberFormatException e) {
 				usage();
 			}
-		}
+		}*/
+		
+		System.out.println(configs(127,127,127));
 /* /
 		time();
 		new Game(3,2,2,0).printNaif();
