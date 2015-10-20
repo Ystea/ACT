@@ -11,7 +11,12 @@ public class Game {
     private int n;
     private int x;
     private int y;
-    private static long time;	// Permet de calculer la durée entre 2 time()
+    private static long time = 0;	// Permet de calculer la durée entre 2 time()
+    
+    private static int[][][][] tab;		// Contient les valeurs calculées
+    private static boolean[][][][] calc;	// Permet de savoir si une valeur est calculée
+    private static int maxX;
+    private static int maxY;
     
     public Game(int m, int n, int x, int y) {
         this.m = m; 
@@ -20,7 +25,9 @@ public class Game {
         this.y = y;
     }
     
-// ######################## VERSION RECURSIVE NAIVE ###################################    
+// ####################################################################################
+// ######################## VERSION RECURSIVE NAIVE ###################################
+// ####################################################################################
     
     public int naif() {
 	List<Integer> positif = new LinkedList<Integer>();
@@ -74,15 +81,16 @@ public class Game {
     
     
     
-    
+// ########################################################################################    
 // ######################## VERSION RECURSIVE DYNAMIQUE ###################################   
+// ########################################################################################
    
     public int dynamique(){	// FONCTION D'INITIALISATION
-    // Initialisation des tableaux
-	int[][][][] tab = new int[m+1][n+1][m][n];
-	boolean[][][][] calc = new boolean[m+1][n+1][m][n];
 	// Remplissage des tableaux
-
+	tab = new int[m+1][n+1][x+1][y+1];
+	calc = new boolean[m+1][n+1][x+1][y+1];
+	maxX = x;
+	maxY = y;
 	for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
                 for (int k = 0; k < x; k++) 
@@ -99,42 +107,22 @@ public class Game {
 	tab[1][1][0][0] = 0;
 	calc[1][1][0][0] = true;
         
-	return this.dynamiqueRec(tab, calc);
+	int res = this.dynamiqueRec();
+	tab = null;
+	calc = null;
+	return res;
     }
 
-// ================ Première version de la fonction dynamique : pas de symétrie
-//     private int dynamiqueRec(int[][][][] tab, boolean[][][][] calc) {
-// 	if (calc[this.m][this.n][this.x][this.y])
-// 	    return tab[this.m][this.n][this.x][this.y];
-// 	List<Game> successeurs = this.successeur();
-// 	List<Integer> positif = new LinkedList<Integer>();
-// 	List<Integer> negatif = new LinkedList<Integer>();
-// 	for (Game g : successeurs) {
-// 	    int res = g.dynamiqueRec(tab, calc);
-// 	    if (res > 0)
-// 			positif.add(res);
-// 	    else 
-// 			negatif.add(res);
-// 	}
-// 	int res;
-// 	if(negatif.isEmpty())
-// 	    res = -(maximum(positif)+1);
-// 	else
-// 	    res = -(maximum(negatif))+1; 
-// 	calc[this.m][this.n][this.x][this.y] = true;
-// 	tab[this.m][this.n][this.x][this.y] = res;
-// 	return res;
-//     }
 
 // =============== Prise en compte de la symétrie
-    private int dynamiqueRec(int[][][][] tab, boolean[][][][] calc) {
+    private int dynamiqueRec() {
 	if (calc[m][n][x][y])
 	    return tab[m][n][x][y];
 	List<Game> successeurs = this.successeur();
 	List<Integer> positif = new LinkedList<Integer>();
 	List<Integer> negatif = new LinkedList<Integer>();
 	for (Game g : successeurs) {
-	    int res = g.dynamiqueRec(tab, calc);
+	    int res = g.dynamiqueRec();
 	    if (res > 0)
 			positif.add(res);
 	    else 
@@ -145,24 +133,33 @@ public class Game {
 	    res = -(maximum(positif)+1);
 	else
 	    res = -(maximum(negatif))+1; 
-	calculated(tab, calc, res);
+	calculated(res);
 	return res;
     }
     
-    private void calculated(int[][][][] tab, boolean[][][][] calc, int value) {
+    private void calculated(int value) {
+	int aux1 = m-(x+1);
+	int aux2 = n-(y+1);
 	calc[m][n][x][y] = true;
-	calc[m][n][m-(x+1)][y] = true;
-	calc[m][n][x][n-(y+1)] = true;
-	calc[m][n][m-(x+1)][n-(y+1)] = true;
-	
 	tab[m][n][x][y] = value;
-	tab[m][n][m-(x+1)][y] = value;
-	tab[m][n][x][n-(y+1)] = value;
-	tab[m][n][m-(x+1)][n-(y+1)] = value;
+	
+	if (aux1 < maxX) {
+	    calc[m][n][aux1][y] = true;
+	    tab[m][n][aux1][y] = value;
+	}
+	if (aux2 < maxY) {
+	    calc[m][n][x][aux2] = true;
+	    tab[m][n][x][aux2] = value;
+	    if (aux1 < maxX) {
+		calc[m][n][m-(x+1)][n-(y+1)] = true;
+		tab[m][n][m-(x+1)][n-(y+1)] = value;
+	    }
+	}
     }
     
-
-// ######################## FONCTIONS UTILITAIRES ###################################   
+// ##################################################################################
+// ######################## FONCTIONS UTILITAIRES ###################################
+// ##################################################################################
     
     public List<Game> successeur(){
 	List<Game> res = new ArrayList<Game>();
@@ -195,20 +192,28 @@ public class Game {
 	return "(" + m + ", " + n + ", " + x + ", " + y + ")";
     }
     
-    private static double time() {
+    public boolean equals(Object o) {
+	if (!(o instanceof Game))
+	    return false;
+	Game g = (Game) o;
+	return m == g.m && n == g.n && x == g.x && y == g.y;
+    }
+    
+    protected static double time() {
 	long prev = time;
 	long now = System.nanoTime();
 	time = now;
 	return ((double) (now - prev)) / 1000000000.;
     }
     
-    
+// #################################################################################
 // ######################### AUTRES ALGORITHMES ####################################
+// #################################################################################
 
 
-
-    
+// #################################################################################    
 // ################################## MAIN #########################################
+// #################################################################################
 
     public void printNaif() {
 	System.out.println("naif("+m+","+n+","+x+","+y+") = " + new Game(m,n,x,y).naif() + ", time = " + time() + " secondes");
