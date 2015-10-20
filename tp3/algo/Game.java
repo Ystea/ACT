@@ -215,18 +215,26 @@ public class Game {
      * @param n la hauteur des configuration à tester
      * @return La liste de toutes les configuration dont la valeur est egale à <code>value</code>
      */
-    public static List<Game> configs(int m, int n, int value) {
-	List<Game> games = new LinkedList<Game>();
-	for (int i = 0; i < m; i++) {
-	    for (int j = 0; j < n; j++) {
-		Game g = new Game(m, n, i, j);
-		if (g.dynamique() == value)
-		    games.add(g);
+     public static List<Game> configs(int m, int n, int value) {
+    	List<Game> games = new LinkedList<Game>();
+    	for (int i = 0; i <= m/2; i++) {
+    	    for (int j = 0; j <= n/2; j++) {
+    			Game g = new Game(m, n, i, j);
+    			if (g.dynamique() == value) {
+    				games.add(g);
+    				games.add(new Game(m, n, m-(i+1), j));
+    				games.add(new Game(m, n, i, n-(j+1)));
+    				games.add(new Game(m, n, m-(i+1), n-(j+1)));
+    				System.out.println("==============================================");
+    				System.out.println("##########Add ("+m+", "+n+", "+i+", "+j+")##########");
+    				System.out.println("==============================================");
+    			} else  {
+    				System.out.println("Tried ("+m+", "+n+", "+i+", "+j+")");
+    			}
+    		}
 	    }
-	}
 	return games;
     }
-
 // #################################################################################    
 // ################################## MAIN #########################################
 // #################################################################################
