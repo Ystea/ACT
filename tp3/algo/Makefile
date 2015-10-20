@@ -12,9 +12,7 @@
 all : Game.class
 
 run : Game.class
-	cd ..; \
-	java algo.Game
-
+	java Game
 
 %.class : %.java
 	javac $<

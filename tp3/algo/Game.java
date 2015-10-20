@@ -1,7 +1,5 @@
-package algo;
 
 import java.util.*;
-import algo.*;
 
 /**
  * @author Adrien Agez
@@ -13,7 +11,7 @@ public class Game {
     private int n;
     private int x;
     private int y;
-    private static long time;
+    private static long time;	// Permet de calculer la durée entre 2 time()
     
     public Game(int m, int n, int x, int y) {
         this.m = m; 
@@ -79,10 +77,10 @@ public class Game {
     
 // ######################## VERSION RECURSIVE DYNAMIQUE ###################################   
    
-    public int dynamique(){	// INITIALISATION
+    public int dynamique(){	// FONCTION D'INITIALISATION
     // Initialisation des tableaux
-	int[][][][] tab = new int[m+1][n+1][x+1][y+1];
-	boolean[][][][] calc = new boolean[m+1][n+1][x+1][y+1];
+	int[][][][] tab = new int[m+1][n+1][m][n];
+	boolean[][][][] calc = new boolean[m+1][n+1][m][n];
 	// Remplissage des tableaux
 
 	for (int i = 0; i < m; i++)
@@ -99,13 +97,39 @@ public class Game {
             calc[1][j][0][0] = true;
         }
 	tab[1][1][0][0] = 0;
+	calc[1][1][0][0] = true;
         
 	return this.dynamiqueRec(tab, calc);
     }
-    
+
+// ================ Première version de la fonction dynamique : pas de symétrie
+//     private int dynamiqueRec(int[][][][] tab, boolean[][][][] calc) {
+// 	if (calc[this.m][this.n][this.x][this.y])
+// 	    return tab[this.m][this.n][this.x][this.y];
+// 	List<Game> successeurs = this.successeur();
+// 	List<Integer> positif = new LinkedList<Integer>();
+// 	List<Integer> negatif = new LinkedList<Integer>();
+// 	for (Game g : successeurs) {
+// 	    int res = g.dynamiqueRec(tab, calc);
+// 	    if (res > 0)
+// 			positif.add(res);
+// 	    else 
+// 			negatif.add(res);
+// 	}
+// 	int res;
+// 	if(negatif.isEmpty())
+// 	    res = -(maximum(positif)+1);
+// 	else
+// 	    res = -(maximum(negatif))+1; 
+// 	calc[this.m][this.n][this.x][this.y] = true;
+// 	tab[this.m][this.n][this.x][this.y] = res;
+// 	return res;
+//     }
+
+// =============== Prise en compte de la symétrie
     private int dynamiqueRec(int[][][][] tab, boolean[][][][] calc) {
-	if (calc[this.m][this.n][this.x][this.y])
-	    return tab[this.m][this.n][this.x][this.y];
+	if (calc[m][n][x][y])
+	    return tab[m][n][x][y];
 	List<Game> successeurs = this.successeur();
 	List<Integer> positif = new LinkedList<Integer>();
 	List<Integer> negatif = new LinkedList<Integer>();
@@ -121,9 +145,20 @@ public class Game {
 	    res = -(maximum(positif)+1);
 	else
 	    res = -(maximum(negatif))+1; 
-	calc[this.m][this.n][this.x][this.y] = true;
-	tab[this.m][this.n][this.x][this.y] = res;
+	calculated(tab, calc, res);
 	return res;
+    }
+    
+    private void calculated(int[][][][] tab, boolean[][][][] calc, int value) {
+	calc[m][n][x][y] = true;
+	calc[m][n][m-(x+1)][y] = true;
+	calc[m][n][x][n-(y+1)] = true;
+	calc[m][n][m-(x+1)][n-(y+1)] = true;
+	
+	tab[m][n][x][y] = value;
+	tab[m][n][m-(x+1)][y] = value;
+	tab[m][n][x][n-(y+1)] = value;
+	tab[m][n][m-(x+1)][n-(y+1)] = value;
     }
     
 
@@ -185,7 +220,9 @@ public class Game {
     
     public static void usage() {
 		System.out.println("usage : ");
-		System.out.println("java algo.Game m n i j");
+		System.out.println("java Game m n i j");
+		System.out.println("Avec m et n le nombre de lignes et de colonnes");
+		System.out.println("Et i et j la position du carré de la mort");
     }
 
     public static void main(String[] args) {
@@ -203,14 +240,17 @@ public class Game {
 				usage();
 			}
 		}
-
-// 		time();
-// 		printNaif(3,2,2,0);
-// 		printNaif(10,7,7,3);
-// 		printNaif(10,7,5,3);
-// 		
-// 		printDynamique(3,2,2,0);
-// 		printDynamique(10,7,7,3);
-// 		printDynamique(10,7,5,3);
+/* /
+		time();
+		new Game(3,2,2,0).printNaif();
+		new Game(10,7,7,3).printNaif();
+		new Game(10,7,5,3).printNaif();
+		
+		new Game(3,2,2,0).printDynamique();
+		new Game(10,7,7,3).printDynamique();
+		new Game(10,7,5,3).printDynamique();
+		/* */
+		
+		
 	}
 }
