@@ -15,17 +15,22 @@ dynamique(3,2,2,0)  = 3    time = 0.0004 secondes
 dynamique(10,7,7,3) = 11   time = 0.0025 secondes
 dynamique(10,7,5,3) = 15   time = 0.0013 secondes
 
-La complexité de l'algorithme naif est exponentielle, car pour chaque appel récursif, il faut résoudre n+m sous-problèmes
+La complexité de l'algorithme naif est exponentielle, car pour chaque appel récursif, il faut résoudre n+m sous-problèmes.
+De plus, les sous problèmes peuvent être calculées de très nombreuses fois
 
 Question 4)
 dynamique(100, 100, 50, 50) : -198   time = 27.7510 secondes
 dynamique(100, 100, 48, 52) : 191    time = 27.6177 secondes
 
+
 Question 5)
-Explosion de PC incoming
+(127, 127, 0, 63)
+(127, 127, 63, 0)
+(127, 127, 126, 63)
+(127, 127, 63, 126)
 
 Question 6)
-Explosion de complexité incoming
+O(m^2 * n^2)
 
 Question 7)
 Les 4 premières configurations sont des symétries et auront donc la même valeur, car le "sens" de la configuration
@@ -41,9 +46,6 @@ dynamique(100,100,48,52)    : 191       time = 8.8422 secondes
 
 
 
-
-
-
    ___  ___  ___  ___  ___.---------------.
   .'\__\'\__\'\__\'\__\'\__,`   .  ____ ___ \
   |\/ __\/ __\/ __\/ __\/ _:\   |`.  \  \___ \
@@ -52,5 +54,3 @@ dynamique(100,100,48,52)    : 191       time = 8.8422 secondes
      \\'\__\'\__\'\__\ \__\'\_;-----------------`
       \\/   \/   \/   \/   \/ :                h|
        \|______________________;________________|
-
-

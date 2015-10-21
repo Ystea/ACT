@@ -27,11 +27,6 @@ public class Game {
     
     
     
-    
-    
-    
-    
-    
     public Game(int m, int n, int x, int y) {
         this.m = m; 
         this.n = n; 
@@ -51,47 +46,47 @@ public class Game {
 	}
 	else{
 	    for(int i=1;i<=x;i++){
-			int res = new Game(m-i,n,x-i,y).naif();
-			if(res>0){
-				positif.add(res);
-			}
-			else{
-				negatif.add(res);
-			}
+		int res = new Game(m-i,n,x-i,y).naif();
+		if(res>0){
+		    positif.add(res);
+		}
+		else{
+		    negatif.add(res);
+		}
 	    }
 	    for(int i=x+1;i<m;i++){
-			int res = new Game(i,n,x,y).naif();
-			if(res>0){
-				positif.add(res);
-			}
-			else{
-				negatif.add(res);
-			}
-	    }
-	    for(int i=1;i<=y;i++){
-			int res = new Game(m,n-i,x,y-i).naif();
-			if(res>0){
-				positif.add(res);
-			}
-			else{
-				negatif.add(res);
-			}
-	    }
-	    for(int i=y+1;i<n;i++){
-			int res = new Game(m,i,x,y).naif();
-			if(res>0){
-				positif.add(res);
-			}
-			else{
-				negatif.add(res);
-			}
+		int res = new Game(i,n,x,y).naif();
+		if(res>0){
+		    positif.add(res);
 		}
-			if(negatif.isEmpty())
-				return -(maximum(positif)+1);
-			else 
-				return -(maximum(negatif))+1;
+		else{
+		    negatif.add(res);
 		}
 	}
+	    for(int i=1;i<=y;i++){
+		int res = new Game(m,n-i,x,y-i).naif();
+		if(res>0){
+		    positif.add(res);
+		}
+		else{
+		    negatif.add(res);
+		}
+	    }
+	    for(int i=y+1;i<n;i++){
+		int res = new Game(m,i,x,y).naif();
+		if(res>0){
+		    positif.add(res);
+		}
+		else{
+		    negatif.add(res);
+		}
+	    }
+	    if(negatif.isEmpty())
+		return -(maximum(positif)+1);
+	    else 
+		return -(maximum(negatif))+1;
+	}
+    }
     
     
     
@@ -133,9 +128,9 @@ public class Game {
 	for (Game g : successeurs) {
 	    int res = g.dynamiqueRec();
 	    if (res > 0)
-		    positif.add(res);
+		positif.add(res);
 	    else 
-		    negatif.add(res);
+		negatif.add(res);
 	}
 	int res;
 	if(negatif.isEmpty())
@@ -175,7 +170,6 @@ public class Game {
 // 		    tab[n][m][aux2][aux1] = value;
 // 		}
 // 	    }
-// 	
 // 	}
     }
     
@@ -208,8 +202,23 @@ public class Game {
 	return res;
     }
     
+    /**
+     * @return La durée écoulée en secondes depuis le dernier time()
+     */
+    private static double time() {
+	long prev = time;
+	long now = System.nanoTime();
+	time = now;
+	return ((double) (now - prev)) / 1000000000.;
+    }
     
+    private boolean validate() {
+	return x < m && y < n;
+    }
     
+    private void printView() {}
+    
+    // Inherited from Object
     public String toString() {
 	return "(" + m + ", " + n + ", " + x + ", " + y + ")";
     }
@@ -223,13 +232,6 @@ public class Game {
     
     public int hashCode() {
 	return this.toString().hashCode();
-    }
-    
-    protected static double time() {
-	long prev = time;
-	long now = System.nanoTime();
-	time = now;
-	return ((double) (now - prev)) / 1000000000.;
     }
     
 // #################################################################################
@@ -287,14 +289,47 @@ public class Game {
     }
     
     public static void usage() {
-		System.out.println("usage : ");
-		System.out.println("java Game m n i j");
-		System.out.println("Avec m et n le nombre de lignes et de colonnes");
-		System.out.println("Et i et j la position du carré de la mort");
+	System.out.println("usage : ");
+	System.out.println("java Game m n i j");
+	System.out.println("Avec m et n le nombre de lignes et de colonnes");
+	System.out.println("Et i et j la position du carré de la mort");
     }
 
+
     public static void main(String[] args) {
-/*	Passer 4 entiers en paramètres pour calculer la valeur du jeu 	*/
+/*
+	if (! (args.length == 4)) {
+	    usage();
+	    return;
+	}
+	try {
+	    int m = Integer.parseInt(args[0]);
+	    int n = Integer.parseInt(args[1]);
+	    int x = Integer.parseInt(args[2]);
+	    int y = Integer.parseInt(args[3]);
+	    System.out.println(new Game(m, n, x, y));
+	} catch (NumberFormatException e) {
+		usage();
+	}
+
+    
+    
+    
+    
+    */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*	Passer 4 entiers en paramètres pour calculer la valeur du jeu 	/
 	
 	if (! (args.length == 4))
 	    usage();
@@ -318,7 +353,7 @@ public class Game {
 		System.out.println(configs(127,127,127));
 /* */
 
-/*	Pas de paramètre, teste la vitesse des 2 algos /
+/*	Pas de paramètre, teste la vitesse des 2 algos */
 		time();
 		new Game(3,2,2,0).printNaif();
 		new Game(10,7,7,3).printNaif();
@@ -326,7 +361,7 @@ public class Game {
 		
 		new Game(3,2,2,0).printDynamique();
 		new Game(10,7,7,3).printDynamique();
-		new Game(10,7,5,3).printDynamique();
+		new Game(100,100,50,50).printDynamique();
 /* */
-	}
+    }
 }
