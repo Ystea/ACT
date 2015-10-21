@@ -7,16 +7,30 @@ import java.util.*;
  */
 public class Game {
     
+    // FIELDS
     private int m;
     private int n;
     private int x;
     private int y;
+    
     private static long time = 0;	// Permet de calculer la durée entre 2 time()
     
-    private static int[][][][] tab;		// Contient les valeurs calculées
-    private static boolean[][][][] calc;	// Permet de savoir si une valeur est calculée
+    // Tableaux pour algo dynamique
+    private static Integer[][][][] tab;		// Contient les valeurs calculées
+    
+    // Bornes pour algo dynamique
+    private static int maxM;
+    private static int maxN;
     private static int maxX;
     private static int maxY;
+    
+    
+    
+    
+    
+    
+    
+    
     
     public Game(int m, int n, int x, int y) {
         this.m = m; 
@@ -87,36 +101,31 @@ public class Game {
    
     public int dynamique(){	// FONCTION D'INITIALISATION
 	// Remplissage des tableaux
-	tab = new int[m+1][n+1][x+1][y+1];
-	calc = new boolean[m+1][n+1][x+1][y+1];
+	tab = new Integer[m+1][n+1][x+1][y+1];
 	maxX = x;
 	maxY = y;
 	for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
                 for (int k = 0; k < x; k++) 
                     for (int l = 0; l < y; l++)
-                        calc[i][j][k][l] = false;
+                        tab[i][j][k][l] = null;
 	for (int i = 1; i < m; i++) {
             tab[i][1][0][0] = 1;
-            calc[i][1][0][0] = true;
         }
         for (int j = 1; j < n; j++) {
             tab[1][j][0][0] = 1;
-            calc[1][j][0][0] = true;
         }
 	tab[1][1][0][0] = 0;
-	calc[1][1][0][0] = true;
         
 	int res = this.dynamiqueRec();
 	tab = null;
-	calc = null;
 	return res;
     }
 
 
 // =============== Prise en compte de la symétrie
     private int dynamiqueRec() {
-	if (calc[m][n][x][y])
+	if (tab[m][n][x][y] != null)
 	    return tab[m][n][x][y];
 	List<Game> successeurs = this.successeur();
 	List<Integer> positif = new LinkedList<Integer>();
@@ -124,9 +133,9 @@ public class Game {
 	for (Game g : successeurs) {
 	    int res = g.dynamiqueRec();
 	    if (res > 0)
-			positif.add(res);
+		    positif.add(res);
 	    else 
-			negatif.add(res);
+		    negatif.add(res);
 	}
 	int res;
 	if(negatif.isEmpty())
@@ -140,21 +149,34 @@ public class Game {
     private void calculated(int value) {
 	int aux1 = m-(x+1);
 	int aux2 = n-(y+1);
-	calc[m][n][x][y] = true;
 	tab[m][n][x][y] = value;
 	
+	// Symétries
 	if (aux1 < maxX) {
-	    calc[m][n][aux1][y] = true;
 	    tab[m][n][aux1][y] = value;
 	}
 	if (aux2 < maxY) {
-	    calc[m][n][x][aux2] = true;
 	    tab[m][n][x][aux2] = value;
 	    if (aux1 < maxX) {
-		calc[m][n][m-(x+1)][n-(y+1)] = true;
-		tab[m][n][m-(x+1)][n-(y+1)] = value;
+		tab[m][n][aux1][aux2] = value;
 	    }
 	}
+	
+	// Rotations (ralentit le code, trop de if ?)
+// 	if (m < maxN && n < maxM) {
+// 	    if (x < maxY && y < maxX)
+// 		tab[n][m][y][x] = value;
+// 	    if (aux1 < maxY) {
+// 		tab[n][m][y][aux1] = value;
+// 	    }
+// 	    if (aux2 < maxX) {
+// 		tab[n][m][aux2][x] = value;
+// 		if (aux1 < maxY) {
+// 		    tab[n][m][aux2][aux1] = value;
+// 		}
+// 	    }
+// 	
+// 	}
     }
     
 // ##################################################################################
@@ -214,53 +236,24 @@ public class Game {
 // ######################### AUTRES ALGORITHMES ####################################
 // #################################################################################
 
-//     /**
-//      * @param m La longueur des configurations à tester
-//      * @param n la hauteur des configuration à tester
-//      * @return La liste de toutes les configuration dont la valeur est egale à <code>value</code>
-//      */
-//      public static List<Game> configs(int m, int n, int value) {
-//     	List<Game> games = new LinkedList<Game>();
-//     	for (int i = 0; i <= m/2; i++) {
-//     	    for (int j = 0; j <= n/2; j++) {
-//     			Game g = new Game(m, n, i, j);
-//     			if (g.dynamique() == value) {
-//     				games.add(g);
-//     				games.add(new Game(m, n, m-(i+1), j));
-//     				games.add(new Game(m, n, i, n-(j+1)));
-//     				games.add(new Game(m, n, m-(i+1), n-(j+1)));
-//     				System.out.println("==============================================");
-//     				System.out.println("##########Add ("+m+", "+n+", "+i+", "+j+")##########");
-//     				System.out.println("==============================================");
-//     			} else  {
-//     				System.out.println("Tried ("+m+", "+n+", "+i+", "+j+")");
-//     			}
-//     		}
-// 	    }
-// 	return games;
-//     }
 
     public static Set<Game> configs(int m, int n, int value){	// FONCTION D'INITIALISATION
 	// Remplissage des tableaux
-	tab = new int[m+1][n+1][(m+1)/2][(n+1)/2];
-	calc = new boolean[m+1][n+1][(m+1)/2][(n+1)/2];
+	tab = new Integer[m+1][n+1][(m+1)/2][(n+1)/2];
 	maxX = (m+1)/2;
 	maxY = (n+1)/2;
 	for (int i = 0; i <= m; i++)
             for (int j = 0; j <= n; j++)
                 for (int k = 0; k < m/2; k++) 
                     for (int l = 0; l < n/2; l++)
-                        calc[i][j][k][l] = false;
+                        tab[i][j][k][l] = null;
 	for (int i = 1; i < m; i++) {
             tab[i][1][0][0] = 1;
-            calc[i][1][0][0] = true;
         }
         for (int j = 1; j < n; j++) {
             tab[1][j][0][0] = 1;
-            calc[1][j][0][0] = true;
         }
 	tab[1][1][0][0] = 0;
-	calc[1][1][0][0] = true;
         Set<Game> games = new HashSet<Game>();
         for (int i = 0; i < (m+1)/2; i++) {
 	    for (int j = 0; j < (n+1)/2; j++) {
@@ -279,7 +272,6 @@ public class Game {
 	    }
 	}
 	tab = null;
-	calc = null;
 	return games;
     }
 // #################################################################################    
@@ -302,23 +294,31 @@ public class Game {
     }
 
     public static void main(String[] args) {
-	/*	if (! (args.length == 4))
-			usage();
+/*	Passer 4 entiers en paramètres pour calculer la valeur du jeu 	*/
+	
+	if (! (args.length == 4))
+	    usage();
 		else {
-			try {
-				int m = Integer.parseInt(args[0]);
-				int n = Integer.parseInt(args[1]);
-				int x = Integer.parseInt(args[2]);
-				int y = Integer.parseInt(args[3]);
-				time();
-				new Game(m, n, x, y).printDynamique();
-			} catch (NumberFormatException e) {
-				usage();
-			}
-		}*/
+		    try {
+			    int m = Integer.parseInt(args[0]);
+			    int n = Integer.parseInt(args[1]);
+			    int x = Integer.parseInt(args[2]);
+			    int y = Integer.parseInt(args[3]);
+			    time();
+			    new Game(m, n, x, y).printDynamique();
+		    } catch (NumberFormatException e) {
+			    usage();
+		    }
+		}
 		
+/* */
+
+
+/*	Pas de paramètre, réponse question 5	/
 		System.out.println(configs(127,127,127));
-/* /
+/* */
+
+/*	Pas de paramètre, teste la vitesse des 2 algos /
 		time();
 		new Game(3,2,2,0).printNaif();
 		new Game(10,7,7,3).printNaif();
@@ -327,8 +327,6 @@ public class Game {
 		new Game(3,2,2,0).printDynamique();
 		new Game(10,7,7,3).printDynamique();
 		new Game(10,7,5,3).printDynamique();
-		/* */
-		
-		
+/* */
 	}
 }

@@ -35,8 +35,8 @@ Les 4 configurations suivantes ne sont que des rotations des 4 premières
 
 Question 8)
 Après avoir pris en compte les symétries : 
-dynamique(100, 100, 50, 50) : -198      time = 8.8930 secondes
-dynamique(100,100,48,52)    : 191       time = 10.1686 secondes
+dynamique(100, 100, 50, 50) : -198      time = 7.5037 secondes
+dynamique(100,100,48,52)    : 191       time = 8.8422 secondes
 
 
 
