@@ -1,5 +1,19 @@
 AGEZ Adrien & WISSOCQ Sarah 
 
+
+Pour compiler : 
+cd algo
+make
+Pour executer : 
+java Game
+
+
+Dans Game.java : 3 versions du main sont présentes, dont 2 commentées
+La première affiche les valeurs et les temps d'execution sur différentes configurations pour chaque algo
+La deuxième demande 4 paramètres sur la ligne de commande et affiche la valeur et le temps d'execution de l'algo dynamique pour le jeu correspondant
+La troisième affiche tous les couples (i,j) pour lesquelles (127, 127, i, j) a une valeur de 127 (avec une trace d'execution, car elle peut prendre quelques minutes à s'executer)
+
+
 Question 1)
 Voir question1.png
 

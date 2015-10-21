@@ -297,38 +297,20 @@ public class Game {
 
 
     public static void main(String[] args) {
-/*
-	if (! (args.length == 4)) {
-	    usage();
-	    return;
-	}
-	try {
-	    int m = Integer.parseInt(args[0]);
-	    int n = Integer.parseInt(args[1]);
-	    int x = Integer.parseInt(args[2]);
-	    int y = Integer.parseInt(args[3]);
-	    System.out.println(new Game(m, n, x, y));
-	} catch (NumberFormatException e) {
-		usage();
-	}
 
-    
-    
-    
-    
-    */
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+/*	Pas de paramètre, teste la vitesse des 2 algos */
+		time();
+		new Game(3,2,2,0).printNaif();
+		new Game(10,7,7,3).printNaif();
+		new Game(10,7,5,3).printNaif();
+		
+		new Game(3,2,2,0).printDynamique();
+		new Game(10,7,7,3).printDynamique();
+		new Game(10,7,5,3).printDynamique();
+/* */
+
+
+  
     /*	Passer 4 entiers en paramètres pour calculer la valeur du jeu 	/
 	
 	if (! (args.length == 4))
@@ -345,23 +327,12 @@ public class Game {
 			    usage();
 		    }
 		}
-		
 /* */
 
 
-/*	Pas de paramètre, réponse question 5	/
+
+/*	Pas de paramètre, réponse question 5 (execution ~3min40 au m5)	/
 		System.out.println(configs(127,127,127));
-/* */
-
-/*	Pas de paramètre, teste la vitesse des 2 algos */
-		time();
-		new Game(3,2,2,0).printNaif();
-		new Game(10,7,7,3).printNaif();
-		new Game(10,7,5,3).printNaif();
-		
-		new Game(3,2,2,0).printDynamique();
-		new Game(10,7,7,3).printDynamique();
-		new Game(100,100,50,50).printDynamique();
 /* */
     }
 }
