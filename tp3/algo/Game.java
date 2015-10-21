@@ -199,6 +199,10 @@ public class Game {
 	return m == g.m && n == g.n && x == g.x && y == g.y;
     }
     
+    public int hashCode() {
+	return this.toString().hashCode();
+    }
+    
     protected static double time() {
 	long prev = time;
 	long now = System.nanoTime();
@@ -210,29 +214,72 @@ public class Game {
 // ######################### AUTRES ALGORITHMES ####################################
 // #################################################################################
 
-    /**
-     * @param m La longueur des configurations à tester
-     * @param n la hauteur des configuration à tester
-     * @return La liste de toutes les configuration dont la valeur est egale à <code>value</code>
-     */
-     public static List<Game> configs(int m, int n, int value) {
-    	List<Game> games = new LinkedList<Game>();
-    	for (int i = 0; i <= m/2; i++) {
-    	    for (int j = 0; j <= n/2; j++) {
-    			Game g = new Game(m, n, i, j);
-    			if (g.dynamique() == value) {
-    				games.add(g);
-    				games.add(new Game(m, n, m-(i+1), j));
-    				games.add(new Game(m, n, i, n-(j+1)));
-    				games.add(new Game(m, n, m-(i+1), n-(j+1)));
-    				System.out.println("==============================================");
-    				System.out.println("##########Add ("+m+", "+n+", "+i+", "+j+")##########");
-    				System.out.println("==============================================");
-    			} else  {
-    				System.out.println("Tried ("+m+", "+n+", "+i+", "+j+")");
-    			}
-    		}
+//     /**
+//      * @param m La longueur des configurations à tester
+//      * @param n la hauteur des configuration à tester
+//      * @return La liste de toutes les configuration dont la valeur est egale à <code>value</code>
+//      */
+//      public static List<Game> configs(int m, int n, int value) {
+//     	List<Game> games = new LinkedList<Game>();
+//     	for (int i = 0; i <= m/2; i++) {
+//     	    for (int j = 0; j <= n/2; j++) {
+//     			Game g = new Game(m, n, i, j);
+//     			if (g.dynamique() == value) {
+//     				games.add(g);
+//     				games.add(new Game(m, n, m-(i+1), j));
+//     				games.add(new Game(m, n, i, n-(j+1)));
+//     				games.add(new Game(m, n, m-(i+1), n-(j+1)));
+//     				System.out.println("==============================================");
+//     				System.out.println("##########Add ("+m+", "+n+", "+i+", "+j+")##########");
+//     				System.out.println("==============================================");
+//     			} else  {
+//     				System.out.println("Tried ("+m+", "+n+", "+i+", "+j+")");
+//     			}
+//     		}
+// 	    }
+// 	return games;
+//     }
+
+    public static Set<Game> configs(int m, int n, int value){	// FONCTION D'INITIALISATION
+	// Remplissage des tableaux
+	tab = new int[m+1][n+1][(m+1)/2][(n+1)/2];
+	calc = new boolean[m+1][n+1][(m+1)/2][(n+1)/2];
+	maxX = (m+1)/2;
+	maxY = (n+1)/2;
+	for (int i = 0; i <= m; i++)
+            for (int j = 0; j <= n; j++)
+                for (int k = 0; k < m/2; k++) 
+                    for (int l = 0; l < n/2; l++)
+                        calc[i][j][k][l] = false;
+	for (int i = 1; i < m; i++) {
+            tab[i][1][0][0] = 1;
+            calc[i][1][0][0] = true;
+        }
+        for (int j = 1; j < n; j++) {
+            tab[1][j][0][0] = 1;
+            calc[1][j][0][0] = true;
+        }
+	tab[1][1][0][0] = 0;
+	calc[1][1][0][0] = true;
+        Set<Game> games = new HashSet<Game>();
+        for (int i = 0; i < (m+1)/2; i++) {
+	    for (int j = 0; j < (n+1)/2; j++) {
+		Game g = new Game(m, n, i, j);
+		int res = g.dynamiqueRec();
+		if (res == value) {
+		    games.add(g);
+		    games.add(new Game(m, n, m-(i+1), j));
+		    games.add(new Game(m, n, i, n-(j+1)));
+		    games.add(new Game(m, n, m-(i+1), n-(j+1)));
+		    System.out.println("================================");
+		    System.out.println("Add " + g);
+		    System.out.println("================================");
+		} else
+		    System.out.println("tried " + g);
 	    }
+	}
+	tab = null;
+	calc = null;
 	return games;
     }
 // #################################################################################    
