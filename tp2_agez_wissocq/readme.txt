@@ -41,7 +41,7 @@ entrée :
 		else if tab[x][y-1] == 1
 			y--;
 		else
-			// Obiwan Kenobi
+			
 		end if;
 	end while;
 	return l;

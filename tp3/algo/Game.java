@@ -298,7 +298,7 @@ public class Game {
 
     public static void main(String[] args) {
 
-/*	Pas de paramètre, teste la vitesse des 2 algos */
+/*	Pas de paramètre, teste la vitesse des 2 algos /
 		time();
 		new Game(3,2,2,0).printNaif();
 		new Game(10,7,7,3).printNaif();
@@ -331,7 +331,7 @@ public class Game {
 
 
 
-/*	Pas de paramètre, réponse question 5 (execution ~3min40 au m5)	/
+/*	Pas de paramètre, réponse question 5 (execution ~3min40 au m5)	*/
 		System.out.println(configs(127,127,127));
 /* */
     }
