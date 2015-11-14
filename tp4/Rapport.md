@@ -5,7 +5,7 @@ Sarah Wissocq
 
 # TP - La classe NP
 
-## 1 - Qu'est-ce qu'une propeiété NP ?
+## 1 - Qu'est-ce qu'une propiété NP ?
 
 ### Question 1
 Un certificat est une tournée comprenant une fois chaque ville (sauf la ville de départ qui sera présente 2 fois : une fois au début et une fois à la fin)
@@ -25,12 +25,12 @@ Cet algorithme est bien polynomial, il est en θ(n) avec n le nombre de villes d
 
 ### Question 2.1
 Génération aléatoire de certificat :
-    tab = tableau contenant toues les villes
+    `tab` = tableau contenant toues les villes
     Pour i allant de 0 à la taille de tab faire
         rdm := entier aléatoire entre 0 et la taille du tableau
-        echanger tab[i] et tab[rdm]
+        echanger `tab[i]` et `tab[rdm]`
     fin pour
-    ajouter tab[0] à la fin du tableau
+    ajouter `tab[0]` à la fin du tableau
 
 
 ### Question 2.2
@@ -42,6 +42,7 @@ Algorithme non deterministe :
 Le nombre de certificats possibles correspond au nombre de permutations différentes pour l'ensemble des villes, soit n!
 
 ### Question 3.2
+On utilisera l'ordre lexicographique (les villes seront représentées par des entiers)
 
 
 ### Question 3.3

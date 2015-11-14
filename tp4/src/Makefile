@@ -1,17 +1,21 @@
 CAMLC = ocamlc
-
+CAMLDOC = ocamldoc
+FLAGS =
 EXEC = tsp
 
 all : $(EXEC)
 
 %.cmi : %.mli
-	$(CAMLC) -c $<
+	$(CAMLC) $(FLAGS) -c $<
 
 tsp : tsp.ml tsp.cmi 
-	$(CAMLC) -o $@ $<
+	$(CAMLC) $(FLAGS) -o $@ $<
 
 
-.PHONY : clean
+.PHONY : clean doc all
 
 clean : 
-	rm -rf *.cmi *.cmo $(EXEC)
+	rm -rf *.cmi *.cmo *~ $(EXEC)
+
+doc : tsp.mli
+	$(CAMLDOC) -charset utf-8 -d doc/ -html tsp.mli
