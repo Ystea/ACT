@@ -48,3 +48,7 @@ On utilisera l'ordre lexicographique (les villes seront représentées par des e
 ### Question 3.3
 Il suffirait d'appliquer l'algorithme de vérification sur chacun des certificats possibles. 
 Cet algorithme aurait une compléxité en O(n!)
+
+----
+
+# Réductions polynomiales

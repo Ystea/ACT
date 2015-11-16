@@ -9,7 +9,9 @@
 *)
 type tsp;;
 
-(** Un certificat est une liste d'entiers représantant l'ordre des villes. La ville de départ doit également apparaitre à la fin de la liste *)
+(** Un certificat est une liste d'entiers représantant l'ordre des villes. 
+
+/!\ : Un certificat ne doit contenir qu'une seule fois chaque ville. Le retour à la ville de départ est automatiquement pris en compte !*)
 type certificat;;
 
 (** Construit un nouveau [tsp] à partir des données fournies 
@@ -28,5 +30,5 @@ val genereCertificat : tsp -> certificat;;
 (** Algorithme {e non déterministe} pour tester si le problème a une solution *)
 val tspNonDeterministe : tsp -> bool;;
 
-(** Algorithme exponentiel pour  tester si le problème a une solution *)
-(* val tspVerifieTout : tsp -> bool;;*)
+(** Algorithme {e exponentiel} pour  tester si le problème a une solution *)
+val verifieTout : tsp -> bool;;
