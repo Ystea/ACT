@@ -32,3 +32,4 @@ val tspNonDeterministe : tsp -> bool;;
 
 (** Algorithme {e exponentiel} pour  tester si le problème a une solution *)
 val verifieTout : tsp -> bool;;
+

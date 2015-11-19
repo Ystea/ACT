@@ -51,4 +51,31 @@ Cet algorithme aurait une compléxité en O(n!)
 
 ----
 
-# Réductions polynomiales
+## 2 - Réductions polynomiales
+
+
+### Question 4.1
+HamiltonCycle                   TSP
+sommet                          ville
+arête                           2 villes à une distance de 1 (distance plus élevée si pas d'arête)
+nombre de sommets               distance max
+
+
+### Question 4.3
+TSP est un probleme NP-dur, et donc NP-complet
+
+### Question 4.4
+
+
+### Question 5.1
+
+
+### QUestion 5.2
+Voir `hamilton.mli` et `hamilton.ml`
+
+### Question 5.3
+HamiltonPath se réduit dans HamiltonCycle, qui se réduit lui même dans TSP, donc HamiltonPath se réduit dans TSP
+
+---
+
+## 3 - Optimisation versus Décision

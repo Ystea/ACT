@@ -1,21 +1,33 @@
 CAMLC = ocamlc
 CAMLDOC = ocamldoc
-FLAGS =
-EXEC = tsp
+FLAGS = -c
+CMO = tsp.cmo hamilton.cmo
+.PRECIOUS : tsp.cmi
 
-all : $(EXEC)
-
-%.cmi : %.mli
-	$(CAMLC) $(FLAGS) -c $<
-
-tsp : tsp.ml tsp.cmi 
-	$(CAMLC) $(FLAGS) -o $@ $<
+all : $(CMO)
 
 
 .PHONY : clean doc all
-
 clean : 
 	rm -rf *.cmi *.cmo *~ $(EXEC)
-
 doc : tsp.mli
 	$(CAMLDOC) -charset utf-8 -d doc/ -html tsp.mli
+
+
+
+#### CMI ####
+hamilton.cmi : hamilton.mli tsp.cmo
+	$(CAMLC) $(FLAGS) tsp.cmo $<
+%.cmi : %.mli
+	$(CAMLC) $(FLAGS) $<
+
+
+#### CMO ####
+hamilton.cmo : hamilton.ml hamilton.cmi tsp.cmo
+	$(CAMLC) $(FLAGS) tsp.cmo $< -o $@
+
+
+
+%.cmo : %.ml %.cmi
+	$(CAMLC) $(FLAGS) $< -o $@
+
