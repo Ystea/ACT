@@ -13,6 +13,7 @@ Un certificat est une tournée comprenant une fois chaque ville (sauf la ville d
 La taille du certificat sera de n+1. Elle est donc bien bornée par la taille de l'entrée
 
 Algorithme de vérification :
+    
     l = distance maximale autorisée
     
     dist := 0
@@ -25,6 +26,7 @@ Cet algorithme est bien polynomial, il est en θ(n) avec n le nombre de villes d
 
 ### Question 2.1
 Génération aléatoire de certificat :
+    
     `tab` = tableau contenant toues les villes
     Pour i allant de 0 à la taille de tab faire
         rdm := entier aléatoire entre 0 et la taille du tableau
@@ -35,6 +37,7 @@ Génération aléatoire de certificat :
 
 ### Question 2.2
 Algorithme non deterministe : 
+    
     choisir un certificat aléatoire
     vérifier le certificat
 
