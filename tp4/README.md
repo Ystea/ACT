@@ -57,7 +57,7 @@ Cet algorithme aurait une compléxité en O(n!)
 ## 2 - Réductions polynomiales
 
 
-### Question 4.1
+### Question 4.1
 HamiltonCycle                   TSP
 sommet                          ville
 arête                           2 villes à une distance de 1 (distance plus élevée si pas d'arête)
@@ -73,12 +73,25 @@ TSP est un probleme NP-dur, et donc NP-complet
 ### Question 5.1
 
 
-### QUestion 5.2
+### Question 5.2
 Voir `hamilton.mli` et `hamilton.ml`
 
 ### Question 5.3
 HamiltonPath se réduit dans HamiltonCycle, qui se réduit lui même dans TSP, donc HamiltonPath se réduit dans TSP
 
+### Question 6
+Voir `hamilton.mli` et `hamilton.ml`
+
 ---
 
 ## 3 - Optimisation versus Décision
+
+### Question 7
+
+#### TSPOpt1 C P => TSP C P
+Si `TSPOpt1` donne pour résultat un `l` inférieur ou égal à celui qui est donné dans le problème `TSP`, alors le résultat du problème est Oui. Inversement, si le `l` résultat de `TSPOpt1` est supérieur, alors le résultat de `TSP` est non. Cela permet de déduire un algorithme polynomial pour résoudre le problème `TSP` (i.e. `TSP` est P)
+
+#### TSPOpt2 C P => TSP C P
+Si `TSPOpt2` donne pour résultat une tournée de longueur inférieure ou égale à la valeur de `l` qui est donné dans le problème `TSP`, alors le résultat du problème est Oui. Inversement, si la longeur de la tournée est supérieur, alors le résultat de `TSP` est non. Cela permet de déduire un algorithme polynomial pour résoudre le problème `TSP` (i.e. `TSP` est P)
+
+On peut en déduire qu'il est possible de réduire polynomialement `TSP` dans `TSPOpt1` ou dans `TSPOpt2`
