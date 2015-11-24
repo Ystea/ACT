@@ -58,21 +58,23 @@ Cet algorithme aurait une compléxité en O(n!)
 
 
 ### Question 4.1
-HamiltonCycle                   TSP
-sommet                          ville
-arête                           2 villes à une distance de 1 (distance plus élevée si pas d'arête)
-nombre de sommets               distance max
+	
+	HamiltonCycle                   TSP
+	Nombre de sommets		->		Nombre de villes
+	sommet                  ->		ville
+	arête                   ->		2 villes à une distance de 1 (distance := Nombre de villes si pas d'arête)
+	nombre de sommets       ->		distance max
 
 
 ### Question 4.3
-TSP est un probleme NP-dur, et donc NP-complet
+`TSP` est un probleme NP-dur, et donc NP-complet
 
 ### Question 4.4
-
+`HamiltonCycle` est NP-complet, `TSP` peut donc être réduit polynomialement dans `HamiltonCycle`
 
 ### Question 5.1
-
-
+Résoudre `HamiltonPath` sur un graphe G revient à résoudre `HamiltonCycle` sur ce même graphe en ajoutant un sommet relié à tous les autres sommets
+	
 ### Question 5.2
 Voir `hamilton.mli` et `hamilton.ml`
 
@@ -95,3 +97,21 @@ Si `TSPOpt1` donne pour résultat un `l` inférieur ou égal à celui qui est do
 Si `TSPOpt2` donne pour résultat une tournée de longueur inférieure ou égale à la valeur de `l` qui est donné dans le problème `TSP`, alors le résultat du problème est Oui. Inversement, si la longeur de la tournée est supérieur, alors le résultat de `TSP` est non. Cela permet de déduire un algorithme polynomial pour résoudre le problème `TSP` (i.e. `TSP` est P)
 
 On peut en déduire qu'il est possible de réduire polynomialement `TSP` dans `TSPOpt1` ou dans `TSPOpt2`
+
+### Question 8
+S'il existe un algorithme polynomial pour `TSP`, alors on peut trouver un algorithme polynomial pour `TSPOpt1` : 
+
+	Donnée : 
+	n = nombre de villes
+	tab = distance entre les villes	
+
+	l := 0
+	tant que (boucle infinie)
+		Si TSP(n, tab, l) alors return l
+	else
+		l := l+1
+
+Cet algorithme est polynomial si et seulement si `TSP` est polynomial
+
+
+### Question 9
