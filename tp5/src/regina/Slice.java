@@ -36,4 +36,44 @@ public class Slice {
 	public int getSize() {
 		return ((row2 - row1) + 1) * ((col2 - col1) +1);
 	}
+
+	
+
+
+
+	@Override
+	public int hashCode() {
+		StringBuilder build = new StringBuilder();
+		build.append(row1);
+		build.append(" ");
+		build.append(row2);
+		build.append(" ");
+		build.append(col1);
+		build.append(" ");
+		build.append(col2);
+		return build.toString().hashCode();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append(row1);
+		build.append(" ");
+		build.append(col1);
+		build.append(" ");
+		build.append(row2);
+		build.append(" ");
+		build.append(col2);
+		return build.toString();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Slice) {
+			Slice that = (Slice) obj;
+			return (this.row1 == that.row1) && (this.row2 == that.row2) 
+					&& (this.col1 == that.col2) && (this.col2 == that.col2);    
+		}
+		return false;
+	}
 }

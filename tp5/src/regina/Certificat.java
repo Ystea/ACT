@@ -1,24 +1,35 @@
 package regina;
 
-import java.util.LinkedList;
+
+import java.util.ArrayList;
+import java.util.ListIterator;
+
 
 /**
  * @author Adrien Agez
  * @author Sarah Wissocq
  */
-public class Certificat extends LinkedList<Slice> {
+public class Certificat extends ArrayList<Slice>{
+	
 
-    // Eclipse generated serialVersionUID
-	private static final long serialVersionUID = 2667187783214454685L;
+
+	private static final long serialVersionUID = -5613669017867118177L;
 
 	public boolean verifie(Pizza pizza) {
         // Pizza size
-        int r = pizza.getArray().length;
-        int c = pizza.getArray()[0].length;
+        int r = pizza.getNbRows();
+        int c = pizza.getNbCols();
+        boolean[][] overlap = new boolean[r][c];
+        for (int i = 0; i < r; i++) 
+        	for (int j = 0; j < c; j++)
+        		overlap[i][j] = false;
         
-	masterLoop:
-		for (Slice slice : this) {
-			// Slice size
+        ListIterator<Slice> mainIt = this.listIterator();
+	
+    masterLoop:
+		while (mainIt.hasNext()) {
+			Slice slice = mainIt.next();
+			// Check slice size
 			int row1 = slice.getRow1();
 			int row2 = slice.getRow2();
 			int col1 = slice.getCol1();
@@ -28,20 +39,39 @@ public class Certificat extends LinkedList<Slice> {
 					|| slice.getSize() > pizza.getMaxSize())
 				return false; // Slice to big or "out of pizza"
 			
-			// Check if enough ham on slice
-			int nbHam = 0;
 			for (int i = row1; i <= row2; i++) {
 				for (int j = col1; j <= col2; j++) {
-					if (pizza.getCell(i, j) == 'H')
-						if (++nbHam >= pizza.getMinHam())
-							continue masterLoop;
+					if (overlap[i][j] == true)
+						return false;
+					overlap[i][j] = true;
 				}
 			}
+			
+			// Check if enough ham on slice
+			int nbHam = 0;
+			for (int i = row1; i <= row2; i++)
+				for (int j = col1; j <= col2; j++)
+					if (pizza.getCell(i, j) == 'H')
+						if (++nbHam >= pizza.getMinHam())
+							continue masterLoop; // Enough ham, next slice
 			return false; // If not enough ham
 		}
 		return true;
     }
-    
+	
+	@Override
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append(this.size());
+		build.append("\n");
+		for (Slice slice : this) {
+			build.append(slice.toString());
+			build.append("\n");
+		}
+		return build.toString();
+	}
+	
+	
     
     
 }
