@@ -6,7 +6,7 @@ package regina;
  * @author Adrien Agez
  * @author Sarah Wissocq
  */
-public class Slice {
+public class Slice implements Comparable<Slice> {
 
     private int row1;
     private int row2;
@@ -76,4 +76,39 @@ public class Slice {
 		}
 		return false;
 	}
+
+	@Override
+	public int compareTo(Slice that) {
+		if (this.getSize() < that.getSize())
+			return -1;
+		if (this.getSize() > that.getSize())
+			return 1;
+		if (this.row1 < that.row1)
+			return -1;
+		if (this.row1 > that.row1)
+			return 1;
+		if (this.col1 < that.col1)
+			return -1;
+		if (this.col1 > that.col1)
+			return 1;
+		return 0;
+	}
+	
+	/* Pavage gauche -> droite
+	@Override
+	public int compareTo(Slice that) {
+		if (this.row1 < that.row1)
+			return -1;
+		if (this.row1 > that.row1)
+			return 1;
+		if (this.col1 < that.col1)
+			return -1;
+		if (this.col1 > that.col1)
+			return 1;
+		if (this.getSize() < that.getSize())
+			return 1;
+		if (this.getSize() > that.getSize())
+			return -1;
+		return 0;
+	}*/
 }

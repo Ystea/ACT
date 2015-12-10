@@ -11,7 +11,7 @@ import java.util.ListIterator;
  */
 public class Certificat extends ArrayList<Slice>{
 	
-
+	private int score = 0;
 
 	private static final long serialVersionUID = -5613669017867118177L;
 
@@ -58,6 +58,15 @@ public class Certificat extends ArrayList<Slice>{
 		}
 		return true;
     }
+	
+	public int score() {
+		if (this.score == 0){
+			for (Slice slice : this) {
+				this.score += slice.getSize();
+			}
+		}
+		return this.score;
+	}
 	
 	@Override
 	public String toString() {

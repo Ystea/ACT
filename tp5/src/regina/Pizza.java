@@ -77,18 +77,35 @@ public class Pizza {
     
     // ### OTHERS METHODS ###
     
-    public List<Slice> generateAllSlice() {
+    public List<Slice> generateAllSlices() {
     	List<Slice> res = new ArrayList<Slice>();
-    	for (int i1 = 0; i1 < getNbRows(); i1++)
-    		for (int j1 = 0; j1 < getNbCols(); j1++)
-    			for (int i2 = i1; i2 < getNbRows(); i2++)
-    				for (int j2 = j1; j2 < getNbCols(); j2++)
-    					res.add(new Slice(i1, i2, j1, j2));
+    	for (int i1 = 0; i1 < getNbRows(); i1++) {
+    		for (int j1 = 0; j1 < getNbCols(); j1++) {
+    			for (int i2 = i1; i2 < getNbRows(); i2++) {
+    				for (int j2 = j1; j2 < getNbCols(); j2++) {
+    					Slice slice = new Slice(i1, i2, j1, j2);
+    					int ham = 0;
+    					if(slice.getSize() <= this.maxSize){
+    						for (int i = slice.getRow1(); i <= slice.getRow2(); i++) {
+    		        			for (int j = slice.getCol1(); j <= slice.getCol2(); j++) {
+    		        				if (array[i][j] == 'H')
+    		        					ham++;
+    		        			}
+    		        		}
+    						if (ham >= minHam)
+    							res.add(slice);
+    					}
+    				}
+    			}
+    		}
+    	}
     	return res;
     }
     
+    
     public Certificat random() {
-    	List<Slice> allSlices = generateAllSlice();
+    	int score = 0;
+    	List<Slice> allSlices = generateAllSlices();
     	Collections.shuffle(allSlices);
     	boolean[][] overlap = new boolean[getNbRows()][getNbCols()];
         for (int i = 0; i < getNbRows(); i++) 
@@ -98,26 +115,54 @@ public class Pizza {
         Certificat res = new Certificat();
         masterLoop: 
         for (Slice slice : allSlices) {
-        	int ham = 0;
-        	if (slice.getSize() <= maxSize) {
-        		for (int i = slice.getRow1(); i <= slice.getRow2(); i++) {
-        			for (int j = slice.getCol1(); j <= slice.getCol2(); j++) {
-        				if (overlap[i][j])
-        					continue masterLoop;
-        				if (array[i][j] == 'H')
-        					ham++;
-        			}
-        		}
-        		if (ham >= minHam) {
-        			res.add(slice);
-        			for (int i = slice.getRow1(); i <= slice.getRow2(); i++)
-            			for (int j = slice.getCol1(); j <= slice.getCol2(); j++)
-            				overlap[i][j] = true;
-        		}
-        	}
+    		for (int i = slice.getRow1(); i <= slice.getRow2(); i++) {
+    			for (int j = slice.getCol1(); j <= slice.getCol2(); j++) {
+    				if (overlap[i][j])
+    					continue masterLoop;
+    				
+    			}
+    		}
+    		for (int i = slice.getRow1(); i <= slice.getRow2(); i++) {
+    			for (int j = slice.getCol1(); j <= slice.getCol2(); j++) {
+    				overlap[i][j] = true;
+    				score++;
+    			}
+    		}
+    		res.add(slice);
         }
+        System.out.println(score);
     	return res;
     }
     
-    
+    public Certificat glouton() {
+    	// Initialisation
+    	Certificat res = new Certificat();
+    	List<Slice> allSlices = generateAllSlices();
+    	Collections.shuffle(allSlices);
+    	Collections.sort(allSlices, Collections.reverseOrder());
+    	int score = 0;
+    	boolean[][] overlap = new boolean[getNbRows()][getNbCols()];
+        for (int i = 0; i < getNbRows(); i++) 
+        	for (int j = 0; j < getNbCols(); j++)
+        		overlap[i][j] = false;
+        
+        masterLoop:
+    	for (Slice slice : allSlices) {
+    		for (int i = slice.getRow1(); i <= slice.getRow2(); i++) {
+    			for (int j = slice.getCol1(); j <= slice.getCol2(); j++) {
+    				if (overlap[i][j])
+    					continue masterLoop;
+    			}
+    		}
+    		for (int i = slice.getRow1(); i <= slice.getRow2(); i++) {
+    			for (int j = slice.getCol1(); j <= slice.getCol2(); j++) {
+    				overlap[i][j] = true;
+    				score++;
+    			}
+    		}
+    		res.add(slice);
+    	}
+        System.out.println(score);
+    	return res;
+    }
 }
