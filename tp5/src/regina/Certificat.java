@@ -79,8 +79,6 @@ public class Certificat extends ArrayList<Slice>{
 		}
 		return build.toString();
 	}
-	
-	
-    
+
     
 }

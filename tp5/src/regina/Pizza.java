@@ -1,5 +1,6 @@
 package regina;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,8 @@ public class Pizza {
 
     private int maxSize;
     private int minHam;
+    
+    private List<Slice> allSlices;
 
     public Pizza(char[][] pizza, int maxSize, int minHam) {
         this.array = pizza;
@@ -37,7 +40,8 @@ public class Pizza {
 				array[l++] = line.toCharArray();
 			}
 			donnee.close();
-		} catch (Exception e) {
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichier de données " + filename + " non trouvé");
 			e.printStackTrace();
 		}
     	
@@ -78,6 +82,9 @@ public class Pizza {
     // ### OTHERS METHODS ###
     
     public List<Slice> generateAllSlices() {
+    	if (allSlices != null) {
+    		return allSlices;
+    	}
     	List<Slice> res = new ArrayList<Slice>();
     	for (int i1 = 0; i1 < getNbRows(); i1++) {
     		for (int j1 = 0; j1 < getNbCols(); j1++) {
@@ -99,6 +106,7 @@ public class Pizza {
     			}
     		}
     	}
+    	allSlices = res;
     	return res;
     }
     
