@@ -36,7 +36,7 @@ public class Main {
 			fw.write(cert.toString());
 			fw.close();
 		} catch (IOException e) {
-			System.out.println("Erreur lors de l'écruture du fichier :" + e.getMessage());
+			System.out.println("Erreur lors de l'Ã©criture du fichier :" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
